@@ -97,8 +97,6 @@
 
 
 
-
-
 #################################################
 #1. Checking data
 #################################################
@@ -116,7 +114,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/1st and 2st Data")
+setwd("C:/Users/...")
 
 # dataset:
 data <-read.csv2("lutjoc57.csv")
@@ -328,7 +326,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/1st and 2st step clean data")
+setwd("C:/Users/...")
 
 # dataset:
 data <-read.csv2("lutjoc57.csv")
@@ -429,8 +427,6 @@ bartlett.test(d13C ~ Size, data = data) #p-value > 0.05, we can assume the homog
 
 
 
-
-
 #################################################
 #3. Trophic position
 #################################################
@@ -449,7 +445,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/3st step TP")
+setwd("C:/Users/...")
 
 # dataset
 data <-read.csv2("data_tp57.csv")
@@ -906,7 +902,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/4st step SEA")
+setwd("C:/Users/...")
 
 ##############
 #4.1 SEA rKIN
@@ -1257,6 +1253,10 @@ print(prop.of.both.1_2_length)
 
 
 
+
+
+
+
 #################################################
 #5. Mixture models
 #################################################
@@ -1266,7 +1266,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/5st step MMs")
+setwd("C:/Users/...")
 
 #packages
 library("simmr")
@@ -1586,7 +1586,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/6st step Habitat connectivity")
+setwd("C:/Users/...")
 
 library(MixSIAR)
 library(ggplot2)
