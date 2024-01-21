@@ -410,9 +410,9 @@ bartlett.test(d13C ~ Size, data = data) #p-value > 0.05, we can assume the homog
 ##############
 
 #Significant differences were observed in δ13C according to the season (p < 0.01), 
-#but this pattern was not observed for δ15N (p = 0.37, Fig. 3). In contrast, 
+#but this pattern was not observed for δ15N (p = 0.47, Fig. 3). In contrast, 
 #significant differences were observed in δ13C (p = 0.04) and δ15N (p < 0.01) 
-#according to the size classes 
+#according to the size classes (Fig. 3)
 
 
 
