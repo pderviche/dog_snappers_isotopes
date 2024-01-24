@@ -1683,11 +1683,11 @@ plot_continuous_var(jags.1, mix, source, output_options, alphaCI=0.2,exclude_sou
 
 #Our Bayesian mixing models assessing the habitat use by juvenile dog snappers 
 #displayed a good performance, with the Deviance Information Criterion (DIC) 
-#value of 48.9. In general, the higher proportions come from the mangrove (73.6 ± 0.06 %)
-#compared to the marine (18.5 ± 1.16 %) and the grasses sources (7.9 ± 0.06 %, Fig. 7).
-#However, we observed an increase in the mean contribution from the mangrove as the 
-#juvenile dog snappers' TL increased (from 65.8 % to 81.4 %), while the contribution
-#from the grasses remained relatively stable (from 7.2 % to 7.0 %). In contrast, the 
+#value of 48.9. In general, the higher proportions come from the sheltered estuary (73.6 ± 0.06 %)
+#compared to the marine (18.5 ± 1.16 %) and the exposed estuarine sources (7.9 ± 0.06 %, Fig. 7).
+#However, we observed an increase in the mean contribution from the sheltered estuary as the 
+#juvenile dog snappers' TL increased (from 65.8 % to 81.4 %), while the contribution 
+#from the exposed estuary remained relatively stable (from 7.2 % to 7.0 %). In contrast, the 
 #mean marine contribution decreased considerably (from 27.0 % to 11.6 %, Fig. 7). 
 
 
