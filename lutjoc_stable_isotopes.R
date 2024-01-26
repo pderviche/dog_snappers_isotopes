@@ -72,7 +72,7 @@
         #5.2.3 Running simmr
         #5.2.4 Checking the algorithm converged
         #5.2.5 Checking the model fit
-      #5.3 Mixture models results
+      #5.3 Mixing models results
 
   #6. Trophic connectivity.......................................................line 1580
         #6.1 Load data
