@@ -58,7 +58,7 @@
            #Figure 4a
       #4.4 Trophic position results
 
-  #5. Mixture models.............................................................line 1260
+  #5. Mixing models.............................................................line 1260
       #5.1 Seasonality          
         #5.1.1 Getting the data into simmr
         #5.1.2 Plotting the data in iso-space
@@ -1258,7 +1258,7 @@ print(prop.of.both.1_2_length)
 
 
 #################################################
-#5. Mixture models
+#5. Mixing models
 #################################################
 
 #Clean R environment 
