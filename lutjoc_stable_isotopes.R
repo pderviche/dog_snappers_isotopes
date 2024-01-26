@@ -74,13 +74,13 @@
         #5.2.5 Checking the model fit
       #5.3 Mixing models results
 
-  #6. Trophic connectivity.......................................................line 1580
+  #6. Trophic connectivity.......................................................line 1630
         #6.1 Load data
         #6.2 Model
             #Figure 7
         #6.3 Trophic connectivity Results
 
-  #7. Hydroclimatic data.........................................................line 1700
+  #7. Hydroclimatic data.........................................................line 1750
             #Figure 2
 
 
@@ -1258,7 +1258,7 @@ print(prop.of.both.1_2_length)
 
 
 #################################################
-#5. Mixing models
+#5. Mixture models
 #################################################
 
 #Clean R environment 
@@ -1266,7 +1266,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/...")
+setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/5st step MMs")
 
 #packages
 library("simmr")
@@ -1284,18 +1284,33 @@ library("rjags")
 
 mix_dry <- matrix(c(-20.25,-20.84,-20.07,-20.32,-19.87,-20.80,-21.85,-22.21,-21.70,-20.34,-21.81,-22.00,-22.06,
                     12.17,12.21,12.45,11.72,12.70,13.46,11.32,12.22,12.66,10.63,10.18,10.16,13.99), ncol = 2, nrow = 13)
+
 colnames(mix_dry) <- c("d13C", "d15N")
 s_names <- c("Mangrove crab", "Tidal crabs", "Blue crab ", "Shrimps", "Pelagic fish", "Demersal fish")
 s_means <- matrix(c(-23.65,-21.59,-19.96,-19.72,-20.01,-18.81,
                     9.24,8.26,9.73,9.14,11.58,10.31), ncol = 2, nrow = 6)
 s_sds <- matrix(c(0.56,0.55,0.38,1.43,1.69,1.75,
                   0.58,0.66,0.74,0.92,1.01,2.26), ncol = 2, nrow = 6)
+cor_means <- matrix(c(1.7,1.7,1.7,1.7,1.7,1.7,
+                      2.5,2.5,2.5,2.5,2.5,2.5), ncol = 2, nrow = 6)
+cor_sds <- matrix(c(0.2,0.2,0.2,0.2,0.2,0.2,
+                    0.2,0.2,0.2,0.2,0.2,0.2), ncol = 2, nrow = 6)
 
-simmr_in_dry <- simmr_load(
+#raw
+simmr_in_dry_raw_fig <- simmr_load(
   mixtures = mix_dry,
   source_names = s_names,
   source_means = s_means,
   source_sds = s_sds)
+
+#TDF corrected
+simmr_in_dry <- simmr_load(
+  mixtures = mix_dry,
+  source_names = s_names,
+  source_means = s_means,
+  source_sds = s_sds,
+  correction_means = cor_means,
+  correction_sds = cor_sds)
 
 mix_wet <- matrix(c(-22.11,-22.74,-23.27,-21.86,-21.83,-22.57,-21.52,-24.55,-22.14,-23.95,
                     -21.50,-22.91,-22.24,-23.87,-23.41,-22.37,-23.98,-22.63,-22.77,-21.61,
@@ -1315,38 +1330,46 @@ s_means <- matrix(c(-24.77, -17.39, -24.30, -25.31, -23.35, -23.11,
 s_sds <- matrix(c(0.97, 0.49, 2.02, 1.14, 3.10, 3.15,
                   1.38, 0.52, 0.51, 0.58, 0.80, 2.30), ncol = 2, nrow = 6)
 
-simmr_in_wet <- simmr_load(
+#raw
+simmr_in_wet_raw_fig <- simmr_load(
   mixtures = mix_wet,
   source_names = s_names,
   source_means = s_means,
   source_sds = s_sds)
 
+#TDF corrected
+simmr_in_wet <- simmr_load(
+  mixtures = mix_wet,
+  source_names = s_names,
+  source_means = s_means,
+  source_sds = s_sds,
+  correction_means = cor_means,
+  correction_sds = cor_sds)
 
 #######
 #5.1.2 Plotting the data in iso-space
 #######
 
-plot(simmr_in_dry)
+plot(simmr_in_dry_raw_fig)
 
-dry<-plot(simmr_in_dry,
+dry<-plot(simmr_in_dry_raw_fig,
           xlab = expression(paste(delta^13, "C",
                                   sep = "" )),
           ylab = expression(paste(delta^15, "N",
                                   sep = "" )),
           title = "Dry season",
           ggargs = c(ylim(7,14.7), xlim(-27,-16)))
-dry
+dry #raw
 
-plot(simmr_in_wet)
-
-wet<-plot(simmr_in_wet,
+plot(simmr_in_wet_raw_fig)
+wet<-plot(simmr_in_wet_raw_fig,
           xlab = expression(paste(delta^13, "C",
                                   sep = "" )),
           ylab = expression(paste(delta^15, "N",
                                   sep = "" )),
           title = "Wet season",
           ggargs = c(ylim(7,14.7), xlim(-27,-16)))
-wet
+wet #raw
 
 ggarrange(dry, wet, common.legend = TRUE, legend="right", ncol=2, nrow = 1, labels = c("A", "B"))
 
@@ -1358,7 +1381,7 @@ ggarrange(dry, wet, common.legend = TRUE, legend="right", ncol=2, nrow = 1, labe
 #MCMC to determine the dietary proportions
 
 #Dry
-plot(simmr_in_dry)
+plot(simmr_in_dry) #TDF corrected
 simmr_out_dry <- simmr_mcmc(simmr_in_dry)
 compare_sources(simmr_out_dry,
                 source_names = c(
@@ -1367,18 +1390,18 @@ summary(simmr_out_dry, type = "statistics")
 
 #Results Dry
 #               mean    sd
-#deviance      96.127 4.795
-#Mangrove crab  0.213 0.101
-#Tidal crabs    0.115 0.101
-#Blue crab      0.130 0.109
-#Shrimps        0.099 0.083
-#Pelagic fish   0.333 0.190
-#Demersal fish  0.110 0.082
-#sd[d13C]       0.959 0.375
-#sd[d15N]       2.674 0.842
+#deviance      78.475 4.733
+#Mangrove crab  0.670 0.102
+#Tidal crabs    0.086 0.077
+#Blue crab      0.065 0.050
+#Shrimps        0.059 0.045
+#Pelagic fish   0.065 0.047
+#Demersal fish  0.054 0.039
+#sd[d13C]       1.053 0.375
+#sd[d15N]       1.322 0.378
 
 #Wet
-plot(simmr_in_wet)
+plot(simmr_in_wet) #TDF corrected
 simmr_out_wet <- simmr_mcmc(simmr_in_wet)
 compare_sources(simmr_out_wet,
                 source_names = c(
@@ -1387,15 +1410,15 @@ summary(simmr_out_wet, type = "statistics")
 
 #Results Wet
 #                 mean    sd
-#deviance      308.732 4.644
-#Mangrove crab   0.058 0.041
-#Tidal crabs     0.229 0.038
-#Blue crab       0.087 0.058
-#Shrimps         0.259 0.093
-#Pelagic fish    0.252 0.087
-#Demersal fish   0.116 0.062
-#sd[d13C]        0.449 0.184
-#sd[d15N]        2.205 0.310
+#deviance      238.287 3.455
+#Mangrove crab   0.429 0.113
+#Tidal crabs     0.051 0.022
+#Blue crab       0.144 0.095
+#Shrimps         0.217 0.114
+#Pelagic fish    0.078 0.046
+#Demersal fish   0.080 0.048
+#sd[d13C]        0.531 0.173
+#sd[d15N]        0.823 0.190
 
 #######
 #5.1.4 Checking the algorithm converged
@@ -1438,12 +1461,21 @@ s_means <- matrix(c(
 s_sds <- matrix(c(0.96,2.11,2.66,2.77,2.98,2.82,
                   1.01,0.69,0.60,0.73,0.89,1.90), ncol = 2, nrow = 6)
 
-simmr_in_small <- simmr_load(
+#raw
+simmr_in_small_raw_fig <- simmr_load(
   mixtures = mix_small,
   source_names = s_names,
   source_means = s_means,
   source_sds = s_sds)
 
+#TDF corrected
+simmr_in_small <- simmr_load(
+  mixtures = mix_small,
+  source_names = s_names,
+  source_means = s_means,
+  source_sds = s_sds,
+  correction_means = cor_means,
+  correction_sds = cor_sds)
 
 mix_big <- matrix(c(-22.21, -22.06, -22.11, -22.74, -23.27, -21.86, -21.83, -22.57, -21.52, -22.14,
                     -21.50, -22.91, -22.24,-23.87, -23.41, -22.37, -23.98, -22.63, -22.77, -21.64,
@@ -1453,38 +1485,49 @@ mix_big <- matrix(c(-22.21, -22.06, -22.11, -22.74, -23.27, -21.86, -21.83, -22.
                     12.22, 13.46, 13.04,12.00), ncol = 2, nrow = 26)
 colnames(mix_big) <- c("d13C", "d15N")
 
-simmr_in_big <- simmr_load(
+#raw
+simmr_in_big_raw_fig <- simmr_load(
   mixtures = mix_big,
   source_names = s_names,
   source_means = s_means,
   source_sds = s_sds)
 
+#TDF corrected
+simmr_in_big <- simmr_load(
+  mixtures = mix_big,
+  source_names = s_names,
+  source_means = s_means,
+  source_sds = s_sds,
+  correction_means = cor_means,
+  correction_sds = cor_sds)
+
 #######
 #5.2.2 Plotting the data in iso-space
 #######
 
-plot(simmr_in_small)
-small<-plot(simmr_in_small,
+plot(simmr_in_small_raw_fig)
+small<-plot(simmr_in_small_raw_fig,
             xlab = expression(paste(delta^13, "C",
                                     sep = "" )),
             ylab = expression(paste(delta^15, "N",
                                     sep = "" )),
             title = "Dog snappers <100 mm",
             ggargs = c(ylim(7,14.7), xlim(-27,-16)))
-small
+small #raw
 
-plot(simmr_in_big)
-big<-plot(simmr_in_big,
+plot(simmr_in_big_raw_fig)
+big<-plot(simmr_in_big_raw_fig,
           xlab = expression(paste(delta^13, "C",
                                   sep = "" )),
           ylab = expression(paste(delta^15, "N",
                                   sep = "" )),
           title = "Dog snappers >100 mm",
           ggargs = c(ylim(7,14.7), xlim(-27,-16)))
-big
+big #raw
 ggarrange(small, big, common.legend = TRUE, legend="bottom", ncol=2, nrow = 1, labels = c("A","B","C", "D"))
 
 #Figure 5
+#Stable isotope raw values 
 ggarrange(dry, wet, small, big, common.legend = TRUE, legend="bottom", ncol=2, nrow = 2, labels = c("A","B","C", "D"))
 
 #######
@@ -1494,42 +1537,44 @@ ggarrange(dry, wet, small, big, common.legend = TRUE, legend="bottom", ncol=2, n
 #MCMC to determine the dietary proportions
 
 #Small
+plot(simmr_in_small) #TDF corrected
 simmr_out_small <- simmr_mcmc(simmr_in_small)
 compare_sources(simmr_out_small,
                 source_names = c(
                   "Mangrove crab", "Tidal crabs", "Blue crab ", "Shrimps", "Pelagic fish", "Demersal fish"))
 summary(simmr_out_small, type = "statistics")
 
-#Results
+#Results small dog snappers
 #                 mean    sd
-#deviance      187.054 4.600
-#Mangrove crab   0.064 0.042
-#Tidal crabs     0.053 0.037
-#Blue crab       0.089 0.061
-#Shrimps         0.113 0.070
-#Pelagic fish    0.432 0.117
-#Demersal fish   0.249 0.111
-#sd[d13C]        0.682 0.301
-#sd[d15N]        1.007 0.266
+#deviance      170.573 3.925
+#Mangrove crab   0.725 0.078
+#Tidal crabs     0.073 0.044
+#Blue crab       0.065 0.048
+#Shrimps         0.060 0.050
+#Pelagic fish    0.036 0.026
+#Demersal fish   0.040 0.029
+#sd[d13C]        0.889 0.240
+#sd[d15N]        0.744 0.232
 
 #Big
+plot(simmr_in_big) #TDF corrected
 simmr_out_big <- simmr_mcmc(simmr_in_big)
 compare_sources(simmr_out_big,
                 source_names = c(
                   "Mangrove crab", "Tidal crabs", "Blue crab ", "Shrimps", "Pelagic fish", "Demersal fish"))
 summary(simmr_out_big, type = "statistics")
 
-#Results
+#Results big dog snappers
 #                 mean    sd
-#deviance      197.656 4.135
-#Mangrove crab   0.156 0.090
-#Tidal crabs     0.083 0.054
-#Blue crab       0.122 0.076
-#Shrimps         0.155 0.083
-#Pelagic fish    0.268 0.112
-#Demersal fish   0.216 0.099
-#sd[d13C]        0.549 0.247
-#sd[d15N]        2.750 0.547
+#deviance      145.062 4.911
+#Mangrove crab   0.320 0.151
+#Tidal crabs     0.031 0.021
+#Blue crab       0.068 0.052
+#Shrimps         0.326 0.150
+#Pelagic fish    0.162 0.083
+#Demersal fish   0.093 0.062
+#sd[d13C]        0.876 0.367
+#sd[d15N]        0.594 0.201
 
 #######
 #5.2.4 Checking the algorithm converged
@@ -1549,20 +1594,25 @@ post_pred_big <- posterior_predictive(simmr_out_big)
 print(post_pred_big)
 
 ##############
-#5.3 Mixing models results
+#5.3 Mixture models results
 ##############
 
-#Overall, the isotopic values of juvenile dog snappers were within the range of
-#isotopic variability among prey items (Fig. 5). Our mixing models revealed variations
-#in prey assimilation across seasons and body size classes. In the dry season, pelagic 
-#fish was the most assimilated prey (33.3 ± 19.0 %), followed by mangrove crabs (21.3 ± 10.1 %),
-#blue crabs (13.0 ± 10.9 %), tidal crab (11.5 ± 10.1 %), demersal fish (11.0 ± 8.2 %), 
-#and shrimps (9.9 ± 8.3 %; Fig. 6a). While, in the wet season, shrimps were the most 
-#assimilated prey (25.9 ± 9.3 %), followed by pelagic fish (25.2 ± 8.7 %), 
-#tidal crabs (22.9 ± 3.8 %), demersal fish (11.6 ± 6.2 %), blue crab (8.7 ± 5.8 %), 
-#and mangrove crabs (5.8 ± 4.1 %; Fig. 6b). As well, considering demersal and
-#pelagic fish together, it was the most representative for both smaller (68.1 %) 
-#and larger individuals (48.8 %; Fig. 6cd).
+#Overall, the isotopic values of juvenile dog snappers were within the range of 
+#isotopic variability among prey items (Fig. 5). Our mixing models revealed variations 
+#in prey assimilation across seasons and size classes. In the dry season, mangrove
+#crab was considerably the most assimilated prey (67.0 ± 10.2 %), followed by tidal 
+#crab (8.6 ± 7.7 %), blue crabs (6.5 ± 5.0 %), pelagic fish (6.5 ± 4.7 %), shrimps (5.9 ± 4.5 %), 
+#and demersal fish (5.4 ± 3.9 %; Fig. 6a). In the wet season, mangrove crabs continued 
+#to be the most assimilated prey (42.9 ± 11.3 %), followed by shrimps (21.7 ± 11.4 %), 
+#blue crab (14.4 ± 9.5 %), demersal fish (8.0 ± 4.8 %), pelagic fish (7.8 ± 4.6 %), 
+#and tidal crabs (5.1 ± 2.2 %; Fig. 6b). For smaller dog snappers, mangrove crab was 
+#also the most assimilated prey (72.5 ± 7.8 %), followed by tidal crabs (7.3 ± 4.4 %), 
+#blue crab (6.5 ± 4.8 %), shrimps (6.0 ± 5.0 %), demersal fish (4.0 ± 2.9 %), and pelagic 
+#fish (3.6 ± 2.6 %; Fig 6c). However, for larger snappers, shrimps took the first position 
+#in prey assimilation (32.6 ± 15.0 %), followed by mangrove crab (32.0 ± 15.1 %), pelagic 
+#fish (16.2 ± 8.3 %), demersal fish (9.3 ± 6.2 %), blue crab (6.8 ± 5.2 %), and tidal crabs (3.1 ± 2.1 %; Fig 6d).
+
+
 
 
 
