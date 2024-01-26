@@ -1706,7 +1706,7 @@ rm(list = ls())
 graphics.off()
 
 #Set directory
-setwd("C:/Users/patri/OneDrive/Documentos/UFES/Tese/Stable isotope/1st and 2st Data")
+setwd("C:/...")
 
 library(ggplot2)
 
