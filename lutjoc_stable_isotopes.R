@@ -1258,7 +1258,7 @@ print(prop.of.both.1_2_length)
 
 
 #################################################
-#5. Mixture models
+#5. Mixing models
 #################################################
 
 #Clean R environment 
@@ -1594,7 +1594,7 @@ post_pred_big <- posterior_predictive(simmr_out_big)
 print(post_pred_big)
 
 ##############
-#5.3 Mixture models results
+#5.3 Mixing models results
 ##############
 
 #Overall, the isotopic values of juvenile dog snappers were within the range of 
