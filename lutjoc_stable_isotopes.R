@@ -850,8 +850,8 @@ trophicDensityPlot(df)
 ###3.7 Trophic position results
 ##############
 
-#Juvenile dog snappers maintained a very similar trophic position among wet (3.28 ± 0.11)
-#and dry (3.34 ± 0.19) seasons (Fig. 4b). On the other hand, larger juveniles had 
+#Juvenile dog snappers maintained a very similar trophic position among dry (3.34 ± 0.19)
+#and wet (3.28 ± 0.11) seasons (Fig. 4b). On the other hand, larger juveniles had 
 #a higher trophic position (3.57 ± 0.08) than the smaller ones (3.01 ± 0.09; Fig 4b).
 
 
@@ -1733,12 +1733,12 @@ plot_continuous_var(jags.1, mix, source, output_options, alphaCI=0.2,exclude_sou
 
 #Our Bayesian mixing models assessing the habitat use by juvenile dog snappers 
 #displayed a good performance, with the Deviance Information Criterion (DIC) 
-#value of 48.9. In general, the higher proportions come from the sheltered estuary (73.6 ± 0.06 %)
-#compared to the marine (18.5 ± 1.16 %) and the exposed estuarine sources (7.9 ± 0.06 %, Fig. 7).
+#value of 46.6. In general, the higher proportions come from the sheltered estuary (75.9 ± 5.5 %) 
+#compared to the marine (16.0 ± 9.7 %) and the exposed estuarine sources (8.1 ± 5.3 %, Fig. 7).
 #However, we observed an increase in the mean contribution from the sheltered estuary as the 
-#juvenile dog snappers' TL increased (from 65.8 % to 81.4 %), while the contribution 
-#from the exposed estuary remained relatively stable (from 7.2 % to 7.0 %). In contrast, the 
-#mean marine contribution decreased considerably (from 27.0 % to 11.6 %, Fig. 7). 
+#juvenile dog snappers' TL increased (from 66.0 % to 84.4 %), while the contribution 
+#from the exposed estuary remained relatively stable (from 7.2 % to 9.4 %). In contrast, the 
+#mean marine contribution decreased considerably (from 26.8 % to 6.2 %, Fig. 7). 
 
 
 
