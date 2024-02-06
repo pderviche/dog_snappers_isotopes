@@ -1693,7 +1693,7 @@ resid_err <- FALSE
 process_err <- TRUE
 write_JAGS_model(model_filename, resid_err, process_err, mix, source)
 
-#Run the JAGS model ("test" first, then "normal")
+#Run the JAGS model ("test" first, then "normal", and finally "long")
 jags.1 <- run_model(run="test", mix, source, discr, model_filename, alpha.prior=1)
 jags.1 <- run_model(run="normal", mix, source, discr, model_filename,alpha.prior=1)
 jags.1 <- run_model(run="long", mix, source, discr, model_filename,alpha.prior=1)
